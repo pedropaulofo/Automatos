@@ -1,53 +1,52 @@
 package automatosFinitos;
 
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Interface que define os metodos que interpretam o funcionamento de um automato finito;
- * 
- * @author Pedro Paulo
- */
 
-public interface AutomatoFInito {
+public abstract class AutomatoFinito implements IAutomatoFinito{
 	
-	/**
-	 * Todo automato deve ser capaz de possuir novos estados, durante sua construção.
-	 * 
-	 */
-	public void addNovoEstado();
+	private String[] alfabeto;
+	private Estado estadoInicial = null;
+	private List<AbstractEstado> estados = new ArrayList<AbstractEstado>();
 	
-	/**
-	 * O automato dev ser capaz de informar qual o seu estado incial.
-	 * @return Estado inicial.
-	 */
-	public Estado getEstadoInicial();
+	public AutomatoFinito(String[] alfabeto) {
+		this.alfabeto = alfabeto;
+		AbstractEstado inicial = new AbstractEstado(alfabeto.length);
+		this.estadoInicial = inicial;
+		estados.add(inicial);
+	}
+	public Estado getEstadoInicial() {
+		return estadoInicial;
+	}
+
+	public String[] getAlfabeto() {
+		return alfabeto;
+	}
+
+	public List<AbstractEstado> getEstados() {
+		return estados;
+	}
 	
-	/**
-	 * O automato deve ser capaz de informar qual o seu alfabeto;
-	 * @return Alfabeto.
-	 */
-	public String[] getAlfabeto();
+	public AbstractEstado getEstado(int ind) {
+		return estados.get(ind);
+	}
+
+	public void setEstadoInicial(int ind) {
+		for (int i = 0; i < this.estados.size(); i++){
+			if(i == ind)
+				estados.get(i).setInicial(true);
+			else
+				estados.get(i).setInicial(false);
+		}
+	}
 	
-	/**
-	 * O automato deve ser capaz de informar sua coleação de estados.
-	 * @return O automato de
-	 */
-	public List<Estado> getEstados();
+	public void setEstadoFinal(int ind, boolean valor) {
+		for (int i = 0; i < this.estados.size(); i++){
+			if(i == ind)
+				estados.get(i).setFinal(valor);
+		}
+	}
 	
-	/**
-	 * O usuario deve ser capaz de redefinir qual o estado inicial do automato.
-	 * @param ind Ìndice do estado que agora será o estado incial. Ex.: Para o param 5,
-	 * o estado q5 será definido como o estado inicial).
-	 */
-	public void setEstadoInicial(int ind);
-	
-	/**
-	 * O usuario deve ser capaz de definir os estados de aceitação (estados finais), e reverter estados
-	 * de aceitação a estados comuns.
-	 * @param ind Ìndice do estado a ser definido como final/comm.
-	 * @param valor Booleano que indica se o estado dado como parametro deve ser definido como final.
-	 * Em caso negativo, o estado em questao será definido como não-final.
-	 */
-	public void setEstadoFinal(int ind, boolean valor);
-	
+
 }

@@ -1,50 +1,53 @@
 package automatosFinitos;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class Estado {
-	private boolean isInicial = false;
-	private boolean isFinal = false;
-	private Map<String, Estado> funcoesTransicao;
-	private int indice = 0;
+public interface Estado {
 	
-	public Estado(int tamanhoAlfabeto){
-		this.funcoesTransicao = new HashMap<String, Estado>(tamanhoAlfabeto);
-	}
+	/**
+	 * O estado deve ser capaz de informar seu índice no autômato.
+	 * @return Índice do estado;
+	 */
+	int getIndice();
 	
-	public int getIndice() {
-		return indice;
-	}
+	/**
+	 * O estado de ser capaz de atualizar seu índice no autômato;
+	 * @param indice Novo índice a ser definido.
+	 */
+	void setIndice(int indice);
 	
-	public Map<String, Estado> getFuncoesTransicao() {
-		return funcoesTransicao;
-	}
+	/**
+	 * O estado deve ser capaz de ser definido como o Estado Inicial do autômato ou redefinido
+	 * como Não-incial.
+	 * @param valor Booleano que indica se o estado é definido ou não como inicial.
+	 */
+	void setInicial(boolean valor);
 	
-	public void setIndice(int indice) {
-		this.indice = indice;
-	}
-
-	public void setInicial(boolean valor){
-		this.isInicial = valor;
-	}
-
-	public void setFinal(boolean valor){
-		this.isFinal = valor;
-	}
-
-	public void setFuncaoTransicao(String entrada, Estado estadoResutante){
-		funcoesTransicao.put(entrada, estadoResutante);
-	}
-
-	public boolean isInicial() {
-		return isInicial;
-	}
-
-	public boolean isFinal() {
-		return isFinal;
-	}
+	/**
+	 * O estado deve ser capaz de ser definido como Estado Final (estado de aceitação) e
+	 * redefinido como não-final.
+	 * @param valor Booleano que indica se o estado será deinido ou não como final.
+	 */
+	void setFinal(boolean valor);
+	
+	/**
+	 * O estado deve poder definir funções de trânsição que ligam a entrada dada ao estado
+	 * especificado.
+	 * @param entrada Entrada da função.
+	 * @param estadoResutante Estado resultante ao ler a entrada.
+	 */
+	void setFuncaoTransicao(String entrada, AbstractEstado estadoResutante);
 	
 	
+	/**
+	 * O estado deve ser capaz de informar se é o Estado Inicial.
+	 * @return True se for, False se não.
+	 */
+	boolean isInicial();
+	
+	/**
+	 * O estado deve ser capaz de informar se é um Estado Final(estado de aceitação).
+	 * @return True se for, False se não.
+	 */
+	boolean isFinal();
+
 
 }
