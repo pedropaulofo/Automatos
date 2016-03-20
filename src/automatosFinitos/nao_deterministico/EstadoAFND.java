@@ -1,4 +1,4 @@
-package automatosFinitos.naoDeterministicos;
+package automatosFinitos.nao_deterministico;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,5 +33,12 @@ public class EstadoAFND extends AbstractEstado{
 			}
 		}
 	}
-
+	
+	public List<String> getEntradasTransicoes(){
+		return this.entradas;
+	}
+	
+	public List<EstadoAFND> getResultadosTransicoes(){
+		return this.estadosResultantes;
+	}
 }

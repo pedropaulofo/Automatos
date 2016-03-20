@@ -1,7 +1,5 @@
 package automatosFinitos;
 
-import java.util.List;
-
 
 /**
  * Interface que define os metodos que interpretam o funcionamento de um automato finito;
@@ -15,13 +13,13 @@ public interface IAutomatoFinito {
 	 * Todo automato deve ser capaz de possuir novos estados, durante sua construção.
 	 * 
 	 */
-	public void addNovoEstado();
+	public AbstractEstado addNovoEstado();
 	
 	/**
 	 * O automato dev ser capaz de informar qual o seu estado incial.
 	 * @return Estado inicial.
 	 */
-	public Estado getEstadoInicial();
+	public AbstractEstado getEstadoInicial();
 	
 	/**
 	 * O automato deve ser capaz de informar qual o seu alfabeto;
@@ -33,7 +31,7 @@ public interface IAutomatoFinito {
 	 * O automato deve ser capaz de informar sua coleação de estados.
 	 * @return Conjunto de estados do autômato.
 	 */
-	public List<AbstractEstado> getEstados();
+	//public List<AbstractEstado> getEstados();
 	
 	/**
 	 * O automato deve ser capaz de informar, dado um índice, o estado respectivo.
@@ -56,5 +54,12 @@ public interface IAutomatoFinito {
 	 * Em caso negativo, o estado em questao será definido como não-final.
 	 */
 	public void setEstadoFinal(int ind, boolean valor);
+	
+	/**
+	 * O automato deve ser capaz de, dada uma palavra, indicar se ela faz ou não parte da linguagem a qual este automato reconhece
+	 * @param palavra Palavra que se quer avaliar.
+	 * @return Boolean que indica se a palavra é aceita ou não por este automato.
+	 */
+	public boolean aceitaPalavra(String palavra);
 	
 }

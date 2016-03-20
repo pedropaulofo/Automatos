@@ -19,9 +19,12 @@ public class EstadoAFD extends AbstractEstado{
 		return funcoesTransicao;
 	}
 	
-	@Override
-	public void setFuncaoTransicao(String entrada, AbstractEstado estadoResutante) {
-		funcoesTransicao.put(entrada, (EstadoAFD) estadoResutante);
+	public void setFuncaoTransicao(String entrada, EstadoAFD estadoResultante) {
+		funcoesTransicao.put(entrada, estadoResultante);
+	}
+	
+	public EstadoAFD getResultadoFuncaoTransicao(String entrada) {
+		return this.getFuncoesTransicao().get(entrada);
 	}
 
 }

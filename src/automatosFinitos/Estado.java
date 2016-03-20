@@ -36,7 +36,6 @@ public interface Estado {
 	 */
 	void setFuncaoTransicao(String entrada, AbstractEstado estadoResutante);
 	
-	
 	/**
 	 * O estado deve ser capaz de informar se é o Estado Inicial.
 	 * @return True se for, False se não.

@@ -7,16 +7,15 @@ import java.util.List;
 public abstract class AutomatoFinito implements IAutomatoFinito{
 	
 	private String[] alfabeto;
-	private Estado estadoInicial = null;
+	protected AbstractEstado estadoInicial = null;
 	private List<AbstractEstado> estados = new ArrayList<AbstractEstado>();
 	
 	public AutomatoFinito(String[] alfabeto) {
 		this.alfabeto = alfabeto;
-		AbstractEstado inicial = new AbstractEstado(alfabeto.length);
-		this.estadoInicial = inicial;
-		estados.add(inicial);
+		
 	}
-	public Estado getEstadoInicial() {
+	
+	public AbstractEstado getEstadoInicial() {
 		return estadoInicial;
 	}
 
@@ -24,9 +23,6 @@ public abstract class AutomatoFinito implements IAutomatoFinito{
 		return alfabeto;
 	}
 
-	public List<AbstractEstado> getEstados() {
-		return estados;
-	}
 	
 	public AbstractEstado getEstado(int ind) {
 		return estados.get(ind);
@@ -47,6 +43,6 @@ public abstract class AutomatoFinito implements IAutomatoFinito{
 				estados.get(i).setFinal(valor);
 		}
 	}
-	
+
 
 }

@@ -1,11 +1,11 @@
 package automatosFinitos;
 
+
 public class AbstractEstado implements Estado{
 
 	private boolean isInicial = false;
 	private boolean isFinal = false;
 	protected int indice = 0;
-
 
 	public AbstractEstado(int tamanhoAlfabeto) {
 	}
@@ -14,8 +14,7 @@ public class AbstractEstado implements Estado{
 	public int getIndice() {
 		return indice;
 	}
-
-
+	
 	@Override
 	public void setIndice(int indice) {
 		this.indice = indice;
@@ -32,10 +31,6 @@ public class AbstractEstado implements Estado{
 	}
 
 	@Override
-	public void setFuncaoTransicao(String entrada, AbstractEstado estadoResutante) {
-	}
-
-	@Override
 	public boolean isInicial() {
 		return isInicial;
 	}
@@ -44,5 +39,12 @@ public class AbstractEstado implements Estado{
 	public boolean isFinal() {
 		return isFinal;
 	}
+
+	@Override
+	public void setFuncaoTransicao(String entrada, AbstractEstado estadoResutante) {
+	}
+
+	
+
 
 }
