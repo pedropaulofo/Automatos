@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import automatosFinitos.AutomatoFinito;
+import automatosFinitos.EntradaIndefinidaException;
 
 
 public class AutomatoFinitoDeterministico extends AutomatoFinito{
@@ -38,7 +39,7 @@ public class AutomatoFinitoDeterministico extends AutomatoFinito{
 	}
 	
 	@Override
-	public boolean aceitaPalavra(String palavra) {
+	public boolean aceitaPalavra(String palavra) throws EntradaIndefinidaException {
 		EstadoAFD estadoAtual = this.getEstadoInicial();
 		for(int i = 0; i< palavra.length(); i++){
 			String entrada = "" + palavra.charAt(i);

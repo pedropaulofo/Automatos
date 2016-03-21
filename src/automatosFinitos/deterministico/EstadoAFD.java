@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import automatosFinitos.AbstractEstado;
+import automatosFinitos.EntradaIndefinidaException;
 
 
 public class EstadoAFD extends AbstractEstado{
@@ -19,11 +20,13 @@ public class EstadoAFD extends AbstractEstado{
 		return funcoesTransicao;
 	}
 	
-	public void setFuncaoTransicao(String entrada, EstadoAFD estadoResultante) {
+	public void setFuncaoTransicao(String entrada, EstadoAFD estadoResultante) throws EntradaIndefinidaException{
+		if(!funcoesTransicao.containsKey(entrada)) throw new EntradaIndefinidaException();
 		funcoesTransicao.put(entrada, estadoResultante);
 	}
 	
-	public EstadoAFD getResultadoFuncaoTransicao(String entrada) {
+	public EstadoAFD getResultadoFuncaoTransicao(String entrada) throws EntradaIndefinidaException{
+		if(!funcoesTransicao.containsKey(entrada)) throw new EntradaIndefinidaException();
 		return this.getFuncoesTransicao().get(entrada);
 	}
 

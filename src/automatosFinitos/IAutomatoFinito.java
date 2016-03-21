@@ -59,7 +59,8 @@ public interface IAutomatoFinito {
 	 * O automato deve ser capaz de, dada uma palavra, indicar se ela faz ou não parte da linguagem a qual este automato reconhece
 	 * @param palavra Palavra que se quer avaliar.
 	 * @return Boolean que indica se a palavra é aceita ou não por este automato.
+	 * @throws EntradaIndefinidaException Se na palavra for lida uma entrada não presente no alfabeto, esta exceção é lançada.
 	 */
-	public boolean aceitaPalavra(String palavra);
+	public boolean aceitaPalavra(String palavra) throws EntradaIndefinidaException;
 	
 }
