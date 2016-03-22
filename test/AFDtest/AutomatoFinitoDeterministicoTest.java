@@ -1,5 +1,6 @@
 package AFDtest;
 
+import automatosFinitos.EntradaIndefinidaException;
 import automatosFinitos.deterministico.AutomatoFinitoDeterministico;
 import automatosFinitos.deterministico.EstadoAFD;
 
@@ -77,7 +78,7 @@ public class AutomatoFinitoDeterministicoTest {
 	}
 	
 	@Test
-	public void testAceitaPalavra(){
+	public void testAceitaPalavra() throws EntradaIndefinidaException{
 		//Testando automato1:
 		Assert.assertTrue(automato1.aceitaPalavra("010"));
 		Assert.assertTrue(automato1.aceitaPalavra("1"));
