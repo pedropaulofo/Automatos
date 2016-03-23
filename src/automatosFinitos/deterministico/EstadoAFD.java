@@ -12,7 +12,6 @@ public class EstadoAFD extends AbstractEstado{
 	private Map<String, EstadoAFD> funcoesTransicao;
 	
 	public EstadoAFD(int tamanhoAlfabeto){
-		super(tamanhoAlfabeto);
 		this.funcoesTransicao = new HashMap<String, EstadoAFD>(tamanhoAlfabeto);
 	}
 

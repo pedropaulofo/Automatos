@@ -7,7 +7,7 @@ public class AbstractEstado implements Estado{
 	private boolean isFinal = false;
 	protected int indice = 0;
 
-	public AbstractEstado(int tamanhoAlfabeto) {
+	public AbstractEstado() {
 	}
 	
 	@Override

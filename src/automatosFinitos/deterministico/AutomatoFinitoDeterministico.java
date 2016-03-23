@@ -3,6 +3,7 @@ package automatosFinitos.deterministico;
 import java.util.ArrayList;
 import java.util.List;
 
+import automatosFinitos.AbstractEstado;
 import automatosFinitos.AutomatoFinito;
 import automatosFinitos.EntradaIndefinidaException;
 
@@ -10,7 +11,7 @@ import automatosFinitos.EntradaIndefinidaException;
 public class AutomatoFinitoDeterministico extends AutomatoFinito{
 	
 	private List<EstadoAFD> estados;
-	protected EstadoAFD estadoInicial = null;
+	protected AbstractEstado estadoInicial = null;
 	
 	public AutomatoFinitoDeterministico(String[] alfabeto){
 		super(alfabeto);
@@ -21,7 +22,7 @@ public class AutomatoFinitoDeterministico extends AutomatoFinito{
 	
 	@Override
 	public EstadoAFD getEstadoInicial() {
-		return estadoInicial;
+		return (EstadoAFD) estadoInicial;
 	}
 	
 	public List<EstadoAFD> getEstados() {
