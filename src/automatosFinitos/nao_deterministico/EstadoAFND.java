@@ -15,6 +15,7 @@ public class EstadoAFND extends AbstractEstado{
 	}
 
 	public void setFuncaoTransicao(char entrada, EstadoAFND estadoResutante) {			
+		System.out.println("definindo transicao para: " + entrada);
 		transicoesNaEntrada[(int)entrada].add(estadoResutante) ;
 	}
 	
@@ -61,13 +62,17 @@ public class EstadoAFND extends AbstractEstado{
 		     * caracter aceitam o resto da string. */
 
 		    int c = (int)palavra.charAt(0) ;
+		    System.out.println("checando entrada: " + palavra.charAt(0));
 
-		    for (EstadoAFND resultado : transicoesNaEntrada[c]) {
-		    	if (resultado.aceita(palavra.substring(1)))
-		    		return true ;
-		    }
-
-		    /* Como nenhum vizinho acessado através deste caractere de entrada aceita
+		    if (transicoesNaEntrada[c] != null) {
+				/*for (EstadoAFND resultado : transicoesNaEntrada[c]) {*/
+				for (int i = 0; i < transicoesNaEntrada[c].size(); i++) {
+					EstadoAFND resultado = transicoesNaEntrada[c].get(i);
+					if (resultado.aceita(palavra.substring(1)))
+						return true;
+				} 
+			}
+			/* Como nenhum vizinho acessado através deste caractere de entrada aceita
 		     * o restante da palavra, verificaremos se através das transições epsilon 
 		     * disponiveis deste estado os estados resultantes aceitam a atual parte
 		     * ainda não lida da palavra. */

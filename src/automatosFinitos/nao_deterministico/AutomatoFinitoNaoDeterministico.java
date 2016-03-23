@@ -18,6 +18,7 @@ public class AutomatoFinitoNaoDeterministico extends AutomatoFinito{
 
 	public EstadoAFND addNovoEstado() {
 		EstadoAFND novo = new EstadoAFND();
+		novo.setIndice(estados.size());
 		this.estados.add(novo);
 		return novo;
 	}
@@ -25,6 +26,10 @@ public class AutomatoFinitoNaoDeterministico extends AutomatoFinito{
 	@Override
 	public EstadoAFND getEstadoInicial() {
 		return (EstadoAFND) estadoInicial;
+	}
+	
+	public List<EstadoAFND> getEstados() {
+		return this.estados;
 	}
 
 	@Override

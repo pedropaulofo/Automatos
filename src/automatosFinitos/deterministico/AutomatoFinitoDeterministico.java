@@ -18,25 +18,26 @@ public class AutomatoFinitoDeterministico extends AutomatoFinito{
 		estados = new ArrayList<EstadoAFD>();
 		EstadoAFD inicial = this.addNovoEstado();
 		this.estadoInicial = inicial;
+	}
+	
+	public EstadoAFD addNovoEstado(){ //cria um proximo estado no automato, que por padrao suas funcoes de transição levam a si proprio
+		EstadoAFD novo = new EstadoAFD(getAlfabeto().length);
+		novo.setIndice(estados.size());
+		for (int i = 0; i < getAlfabeto().length; i++){
+			novo.getFuncoesTransicao().put(getAlfabeto()[i], novo);
 		}
+		estados.add(novo);
+		return novo;
+	}
 	
 	@Override
 	public EstadoAFD getEstadoInicial() {
 		return (EstadoAFD) estadoInicial;
 	}
 	
+	@Override
 	public List<EstadoAFD> getEstados() {
 		return this.estados;
-	}
-	
-	public EstadoAFD addNovoEstado(){ //cria um proximo estado no automato, que por padrao suas funcoes de transição levam a si proprio
-		EstadoAFD novoEstado = new EstadoAFD(getAlfabeto().length);
-		novoEstado.setIndice(estados.size());
-		for (int i = 0; i < getAlfabeto().length; i++){
-			novoEstado.getFuncoesTransicao().put(getAlfabeto()[i], novoEstado);
-		}
-		estados.add(novoEstado);
-		return novoEstado;
 	}
 	
 	@Override
