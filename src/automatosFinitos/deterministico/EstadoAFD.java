@@ -28,5 +28,22 @@ public class EstadoAFD extends AbstractEstado{
 		if(!funcoesTransicao.containsKey(entrada)) throw new EntradaIndefinidaException();
 		return this.getFuncoesTransicao().get(entrada);
 	}
+	
+	public boolean equivalente(EstadoAFD other){		
+		if(other.isFinal() && !this.isFinal()) return false;
+		if(!other.isFinal() && this.isFinal()) return false;
+		
+		Object[] alfabeto = funcoesTransicao.keySet().toArray();
+		for(int i = 0; i < alfabeto.length; i++){
+			String entrada = (String) alfabeto[i];
+			try {
+				if(getResultadoFuncaoTransicao(entrada).getIndice() != other.getResultadoFuncaoTransicao(entrada).getIndice())
+					return false;
+			} catch (EntradaIndefinidaException e) {
+				return false;
+			}
+		}
+		return true;
+	}
 
 }

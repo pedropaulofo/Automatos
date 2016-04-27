@@ -1,4 +1,4 @@
-package automatos.util;
+package automatosFinitos.util;
 
 import java.util.ArrayList;
 

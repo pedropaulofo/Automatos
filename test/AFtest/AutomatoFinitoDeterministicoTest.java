@@ -3,14 +3,13 @@ package AFtest;
 import automatosFinitos.EntradaIndefinidaException;
 import automatosFinitos.deterministico.AFD;
 import automatosFinitos.deterministico.EstadoAFD;
+import automatosFinitos.util.MinimizadorAFD;
 
 import java.util.ArrayList;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import automatos.util.MinimizadorAFD;
 
 public class AutomatoFinitoDeterministicoTest {
 	
@@ -149,6 +148,11 @@ public class AutomatoFinitoDeterministicoTest {
 		EstadoAFD[] expectedInalcancaveis = {e1, e2};
 		inalcancaveis = min.estadosInalcacaveis(automato5);
 		Assert.assertArrayEquals(expectedInalcancaveis, inalcancaveis.toArray()); //verifica se os estados inalcancaveis sao os que foram criados
+	}
+	
+	@Test
+	public void testaComparacao(){
+		Assert.assertTrue(automato1.equals(automato1));
 	}
 	
 }

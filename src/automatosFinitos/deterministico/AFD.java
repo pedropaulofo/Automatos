@@ -1,7 +1,6 @@
 package automatosFinitos.deterministico;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import automatosFinitos.AbstractEstado;
 import automatosFinitos.AutomatoFinito;
@@ -54,6 +53,36 @@ public class AFD extends AutomatoFinito{
 			estadoAtual = estadoAtual.getResultadoFuncaoTransicao(entrada);
 		}
 		return estadoAtual.isFinal();
+	}
+	
+	@Override
+	public boolean equals(Object obj){
+		if(!(obj instanceof AFD)) return false;
+		AFD other = (AFD) obj;
+		
+		ArrayList<EstadoAFD> estados = this.getEstados();
+		ArrayList<EstadoAFD> otherEstados = other.getEstados();
+		int totalEstados = estados.size();
+		
+		if(otherEstados.size() != totalEstados) return false; //AFDs de tamanhos diferentes
+		if(!other.getEstadoInicial().equals(this.getEstadoInicial())) return false; //Estados inciais nao-equivalentes
+		
+		for(int i = 0; i < totalEstados; i++){
+			int j = 0;
+			while(j < totalEstados - i - 1){
+				if(otherEstados.isEmpty() || estados.isEmpty()) break;
+				if(otherEstados.get(0).equals(estados.get(j))){
+					otherEstados.remove(0);
+					estados.remove(j);
+					break; //encontrou um estado neste AFD igual ao atual o AFD other
+				}
+				j++;
+			}
+			if(j == totalEstados) return false; //não encontrou nenhum estado igual ao atual 
+		}				
+
+		return otherEstados.isEmpty() && estados.isEmpty();
+		
 	}
 	
 }

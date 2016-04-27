@@ -26,6 +26,7 @@ public interface IAutomatoFinito {
 	 * O automato deve ser capaz de informar uma lista contendo todos os seus estados.
 	 * @return ArrayList contendo todos os estados deste automato.
 	 */
+	@SuppressWarnings("rawtypes")
 	public ArrayList getEstados();
 	
 	/**
