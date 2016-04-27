@@ -7,7 +7,7 @@ import automatosFinitos.AutomatoFinito;
 
 public class AutomatoFinitoNaoDeterministico extends AutomatoFinito{
 	
-	private List<EstadoAFND> estados;
+	private ArrayList<EstadoAFND> estados;
 
 	public AutomatoFinitoNaoDeterministico(String[] alfabeto) {
 		super(alfabeto);
@@ -28,7 +28,7 @@ public class AutomatoFinitoNaoDeterministico extends AutomatoFinito{
 		return (EstadoAFND) estadoInicial;
 	}
 	
-	public List<EstadoAFND> getEstados() {
+	public ArrayList<EstadoAFND> getEstados() {
 		return this.estados;
 	}
 

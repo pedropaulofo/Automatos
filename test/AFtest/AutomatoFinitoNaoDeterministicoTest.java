@@ -1,4 +1,4 @@
-package AFDtest;
+package AFtest;
 
 import automatosFinitos.EntradaIndefinidaException;
 import automatosFinitos.nao_deterministico.EstadoAFND;

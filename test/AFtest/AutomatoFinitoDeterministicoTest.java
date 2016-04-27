@@ -1,26 +1,30 @@
-package AFDtest;
+package AFtest;
 
 import automatosFinitos.EntradaIndefinidaException;
-import automatosFinitos.deterministico.AutomatoFinitoDeterministico;
+import automatosFinitos.deterministico.AFD;
 import automatosFinitos.deterministico.EstadoAFD;
+
+import java.util.ArrayList;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import automatos.util.MinimizadorAFD;
+
 public class AutomatoFinitoDeterministicoTest {
 	
-	public AutomatoFinitoDeterministico automato1;
-	public AutomatoFinitoDeterministico automato2;
-	public AutomatoFinitoDeterministico automato3;
-	public AutomatoFinitoDeterministico automato4;
+	public AFD automato1;
+	public AFD automato2;
+	public AFD automato3;
+	public AFD automato4;
 	
 	@Before
 	public void setUp() throws Exception{
 		String[] alfabeto1 = {"0", "1"};
 		
 		//(alfabeto 1,0) Aceita apenas palavras de tamanho ímpar:
-		automato1 = new AutomatoFinitoDeterministico(alfabeto1);
+		automato1 = new AFD(alfabeto1);
 		EstadoAFD q0 = automato1.getEstadoInicial();
 		EstadoAFD q1 = automato1.addNovoEstado();
 		q1.setFuncaoTransicao("0", q0);
@@ -30,7 +34,7 @@ public class AutomatoFinitoDeterministicoTest {
 		q1.setFinal(true); //q1 = entrada de tamanho ímpar
 		
 		//(alfabeto 1,0) Aceita apenas palavras de tamanho par terminadas em 1:
-		automato2 = new AutomatoFinitoDeterministico(alfabeto1);
+		automato2 = new AFD(alfabeto1);
 		EstadoAFD r0 = automato2.getEstadoInicial();
 		EstadoAFD r1 = automato2.addNovoEstado();
 		EstadoAFD r2 = automato2.addNovoEstado();
@@ -45,7 +49,7 @@ public class AutomatoFinitoDeterministicoTest {
 		String[] alfabeto2 = {"a", "b", "c"};
 		
 		//(alfabeto a,b, c) Aceita apenas palavras da linguagem definida por: a*(bc)*
-		automato3 = new AutomatoFinitoDeterministico(alfabeto2);
+		automato3 = new AFD(alfabeto2);
 		EstadoAFD s0 = automato3.getEstadoInicial();
 		EstadoAFD s1 = automato3.addNovoEstado();
 		EstadoAFD s2 = automato3.addNovoEstado();
@@ -62,7 +66,7 @@ public class AutomatoFinitoDeterministicoTest {
 		s2.setFinal(true); //s2 = a*(bc)*
 		
 		//(alfabeto a,b, c) Aceita cadeias contendo "abc"
-		automato4 = new AutomatoFinitoDeterministico(alfabeto2);
+		automato4 = new AFD(alfabeto2);
 		EstadoAFD t0 = automato4.getEstadoInicial();
 		EstadoAFD t1 = automato4.addNovoEstado();
 		EstadoAFD t2 = automato4.addNovoEstado();
@@ -114,6 +118,37 @@ public class AutomatoFinitoDeterministicoTest {
 		Assert.assertFalse(automato4.aceitaPalavra(""));
 		Assert.assertFalse(automato4.aceitaPalavra("aabbcc"));
 		Assert.assertFalse(automato4.aceitaPalavra("bcabbc"));
+	}
+	
+	@Test
+	public void testaAlcancabilidade() throws EntradaIndefinidaException{
+		MinimizadorAFD min = new MinimizadorAFD();
+		ArrayList<EstadoAFD> inalcancaveis;
+		
+		inalcancaveis = min.estadosInalcacaveis(automato1);
+		Assert.assertTrue(inalcancaveis.isEmpty());
+		automato1.addNovoEstado();	// Adiciona um novo estado, inalcancavel
+		inalcancaveis = min.estadosInalcacaveis(automato1);
+		Assert.assertFalse(inalcancaveis.isEmpty()); //Agora ha pelo menos um inalcancavel
+		
+		inalcancaveis = min.estadosInalcacaveis(automato2);
+		Assert.assertTrue(inalcancaveis.isEmpty());
+		EstadoAFD novo = automato2.addNovoEstado();	
+		inalcancaveis = min.estadosInalcacaveis(automato2);
+		Assert.assertEquals(novo, inalcancaveis.get(0)); //verifica que o novo estado eh inalcancavel
+		automato2.getEstadoInicial().setFuncaoTransicao("0", novo); //torna o novo estado alcancavel, a partir do estado inicial
+		inalcancaveis = min.estadosInalcacaveis(automato2);
+		Assert.assertTrue(inalcancaveis.isEmpty()); //verifica que agora nao ha mais inalcancaveis
+
+		String[] alf = {"p", "q"};
+		AFD automato5 = new AFD(alf);
+		inalcancaveis = min.estadosInalcacaveis(automato5);
+		Assert.assertTrue(inalcancaveis.isEmpty());
+		EstadoAFD e1 = automato5.addNovoEstado();
+		EstadoAFD e2 = automato5.addNovoEstado();
+		EstadoAFD[] expectedInalcancaveis = {e1, e2};
+		inalcancaveis = min.estadosInalcacaveis(automato5);
+		Assert.assertArrayEquals(expectedInalcancaveis, inalcancaveis.toArray()); //verifica se os estados inalcancaveis sao os que foram criados
 	}
 	
 }

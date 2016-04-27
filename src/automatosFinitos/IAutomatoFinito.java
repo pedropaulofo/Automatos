@@ -1,6 +1,6 @@
 package automatosFinitos;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Interface que define os metodos que interpretam o funcionamento de um automato finito;
@@ -26,7 +26,7 @@ public interface IAutomatoFinito {
 	 * O automato deve ser capaz de informar uma lista contendo todos os seus estados.
 	 * @return ArrayList contendo todos os estados deste automato.
 	 */
-	public List getEstados();
+	public ArrayList getEstados();
 	
 	/**
 	 * O automato deve ser capaz de informar qual o seu alfabeto;

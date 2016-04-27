@@ -8,14 +8,16 @@ import automatosFinitos.AutomatoFinito;
 import automatosFinitos.EntradaIndefinidaException;
 
 
-public class AutomatoFinitoDeterministico extends AutomatoFinito{
+public class AFD extends AutomatoFinito{
 	
-	private List<EstadoAFD> estados;
+	private ArrayList<EstadoAFD> estados;
+	private ArrayList<EstadoAFD> estadosFinais;
 	protected AbstractEstado estadoInicial = null;
 	
-	public AutomatoFinitoDeterministico(String[] alfabeto){
+	public AFD(String[] alfabeto){
 		super(alfabeto);
 		estados = new ArrayList<EstadoAFD>();
+		estadosFinais = new ArrayList<EstadoAFD>();
 		EstadoAFD inicial = this.addNovoEstado();
 		this.estadoInicial = inicial;
 	}
@@ -36,8 +38,12 @@ public class AutomatoFinitoDeterministico extends AutomatoFinito{
 	}
 	
 	@Override
-	public List<EstadoAFD> getEstados() {
+	public ArrayList<EstadoAFD> getEstados() {
 		return this.estados;
+	}
+	
+	public ArrayList<EstadoAFD> getEstadosFinais() {
+		return estadosFinais;
 	}
 	
 	@Override
