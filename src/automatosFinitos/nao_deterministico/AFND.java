@@ -1,22 +1,21 @@
 package automatosFinitos.nao_deterministico;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import automatosFinitos.AutomatoFinito;
+import automatosFinitos.EntradaIndefinidaException;
 
-public class AutomatoFinitoNaoDeterministico extends AutomatoFinito{
+public class AFND extends AutomatoFinito{
 	
 	private ArrayList<EstadoAFND> estados;
 
-	public AutomatoFinitoNaoDeterministico(String[] alfabeto) {
+	public AFND(String[] alfabeto) {
 		super(alfabeto);
 		estados = new ArrayList<EstadoAFND>();
-		EstadoAFND inicial = this.addNovoEstado();
+		EstadoAFND inicial = this.novoEstado();
 		this.estadoInicial = inicial;
 	}
 
-	public EstadoAFND addNovoEstado() {
+	public EstadoAFND novoEstado() {
 		EstadoAFND novo = new EstadoAFND();
 		novo.setIndice(estados.size());
 		this.estados.add(novo);
@@ -33,8 +32,9 @@ public class AutomatoFinitoNaoDeterministico extends AutomatoFinito{
 	}
 
 	@Override
-	public boolean aceitaPalavra(String palavra) {
-		return getEstadoInicial().aceita(palavra);
+	public boolean aceitaPalavra(String palavra) throws EntradaIndefinidaException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 

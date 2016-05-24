@@ -25,7 +25,7 @@ public class AutomatoFinitoDeterministicoTest {
 		//(alfabeto 1,0) Aceita apenas palavras de tamanho ímpar:
 		automato1 = new AFD(alfabeto1);
 		EstadoAFD q0 = automato1.getEstadoInicial();
-		EstadoAFD q1 = automato1.addNovoEstado();
+		EstadoAFD q1 = automato1.novoEstado();
 		q1.setFuncaoTransicao("0", q0);
 		q1.setFuncaoTransicao("1", q0);
 		q0.setFuncaoTransicao("0", q1);
@@ -35,8 +35,8 @@ public class AutomatoFinitoDeterministicoTest {
 		//(alfabeto 1,0) Aceita apenas palavras de tamanho par terminadas em 1:
 		automato2 = new AFD(alfabeto1);
 		EstadoAFD r0 = automato2.getEstadoInicial();
-		EstadoAFD r1 = automato2.addNovoEstado();
-		EstadoAFD r2 = automato2.addNovoEstado();
+		EstadoAFD r1 = automato2.novoEstado();
+		EstadoAFD r2 = automato2.novoEstado();
 		r0.setFuncaoTransicao("0", r1);
 		r0.setFuncaoTransicao("1", r1);
 		r1.setFuncaoTransicao("0", r0);
@@ -50,9 +50,9 @@ public class AutomatoFinitoDeterministicoTest {
 		//(alfabeto a,b, c) Aceita apenas palavras da linguagem definida por: a*(bc)*
 		automato3 = new AFD(alfabeto2);
 		EstadoAFD s0 = automato3.getEstadoInicial();
-		EstadoAFD s1 = automato3.addNovoEstado();
-		EstadoAFD s2 = automato3.addNovoEstado();
-		EstadoAFD s3 = automato3.addNovoEstado();
+		EstadoAFD s1 = automato3.novoEstado();
+		EstadoAFD s2 = automato3.novoEstado();
+		EstadoAFD s3 = automato3.novoEstado();
 		s0.setFuncaoTransicao("b", s1);
 		s0.setFuncaoTransicao("c", s3);
 		s1.setFuncaoTransicao("a", s3);
@@ -67,9 +67,9 @@ public class AutomatoFinitoDeterministicoTest {
 		//(alfabeto a,b, c) Aceita cadeias contendo "abc"
 		automato4 = new AFD(alfabeto2);
 		EstadoAFD t0 = automato4.getEstadoInicial();
-		EstadoAFD t1 = automato4.addNovoEstado();
-		EstadoAFD t2 = automato4.addNovoEstado();
-		EstadoAFD t3 = automato4.addNovoEstado();
+		EstadoAFD t1 = automato4.novoEstado();
+		EstadoAFD t2 = automato4.novoEstado();
+		EstadoAFD t3 = automato4.novoEstado();
 		t0.setFuncaoTransicao("a", t1);
 		t1.setFuncaoTransicao("c", t0);
 		t1.setFuncaoTransicao("b", t2);
@@ -126,13 +126,13 @@ public class AutomatoFinitoDeterministicoTest {
 		
 		inalcancaveis = min.estadosInalcacaveis(automato1);
 		Assert.assertTrue(inalcancaveis.isEmpty());
-		automato1.addNovoEstado();	// Adiciona um novo estado, inalcancavel
+		automato1.novoEstado();	// Adiciona um novo estado, inalcancavel
 		inalcancaveis = min.estadosInalcacaveis(automato1);
 		Assert.assertFalse(inalcancaveis.isEmpty()); //Agora ha pelo menos um inalcancavel
 		
 		inalcancaveis = min.estadosInalcacaveis(automato2);
 		Assert.assertTrue(inalcancaveis.isEmpty());
-		EstadoAFD novo = automato2.addNovoEstado();	
+		EstadoAFD novo = automato2.novoEstado();	
 		inalcancaveis = min.estadosInalcacaveis(automato2);
 		Assert.assertEquals(novo, inalcancaveis.get(0)); //verifica que o novo estado eh inalcancavel
 		automato2.getEstadoInicial().setFuncaoTransicao("0", novo); //torna o novo estado alcancavel, a partir do estado inicial
@@ -143,8 +143,8 @@ public class AutomatoFinitoDeterministicoTest {
 		AFD automato5 = new AFD(alf);
 		inalcancaveis = min.estadosInalcacaveis(automato5);
 		Assert.assertTrue(inalcancaveis.isEmpty());
-		EstadoAFD e1 = automato5.addNovoEstado();
-		EstadoAFD e2 = automato5.addNovoEstado();
+		EstadoAFD e1 = automato5.novoEstado();
+		EstadoAFD e2 = automato5.novoEstado();
 		EstadoAFD[] expectedInalcancaveis = {e1, e2};
 		inalcancaveis = min.estadosInalcacaveis(automato5);
 		Assert.assertArrayEquals(expectedInalcancaveis, inalcancaveis.toArray()); //verifica se os estados inalcancaveis sao os que foram criados

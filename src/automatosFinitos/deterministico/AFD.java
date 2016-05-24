@@ -17,18 +17,20 @@ public class AFD extends AutomatoFinito{
 		super(alfabeto);
 		estados = new ArrayList<EstadoAFD>();
 		estadosFinais = new ArrayList<EstadoAFD>();
-		EstadoAFD inicial = this.addNovoEstado();
+		EstadoAFD inicial = this.novoEstado();
 		this.estadoInicial = inicial;
 	}
 	
-	public EstadoAFD addNovoEstado(){ //cria um proximo estado no automato, que por padrao suas funcoes de transição levam a si proprio
+	public EstadoAFD novoEstado(){ //cria um proximo estado no automato, que por padrao suas funcoes de transição levam a si proprio
 		EstadoAFD novo = new EstadoAFD(getAlfabeto().length);
 		novo.setIndice(estados.size());
-		for (int i = 0; i < getAlfabeto().length; i++){
-			novo.getFuncoesTransicao().put(getAlfabeto()[i], novo);
-		}
+		novo.inicializar(alfabeto);
 		estados.add(novo);
 		return novo;
+	}
+	
+	public void addEstado(EstadoAFD novo){
+		estados.add(novo);
 	}
 	
 	@Override
@@ -36,6 +38,23 @@ public class AFD extends AutomatoFinito{
 		return (EstadoAFD) estadoInicial;
 	}
 	
+	public void setEstadoInicial(AbstractEstado estadoInicial) throws EntradaIndefinidaException {
+		if (estados.size() > 1) {
+			for (int i = 0; i < estados.size(); i++) {
+				EstadoAFD estado = estados.get(i);
+				for (String chave : estado.getFuncoesTransicao().keySet()) {
+					if (estado.getResultadoFuncaoTransicao(chave).isInicial())
+						estado.setFuncaoTransicao(chave, estado);
+				}
+				if (estado.isInicial())
+					estados.remove(i);
+			}
+		}
+		this.estadoInicial = estadoInicial;
+		estados.add((EstadoAFD) estadoInicial);
+		
+	}
+
 	@Override
 	public ArrayList<EstadoAFD> getEstados() {
 		return this.estados;

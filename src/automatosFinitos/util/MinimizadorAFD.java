@@ -1,15 +1,22 @@
 package automatosFinitos.util;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import automatosFinitos.deterministico.*;
+import automatosFinitos.nao_deterministico.EstadoAFND;
 
 /**
- * Converte um AFD dado para sua forma minima (menor numero de estados possiveis.
+ * Converte um AFD dado para sua forma minima (equivalente com menor numero de estados possíveis par).
  */
 public class MinimizadorAFD {
 	
 	public AFD minimizacao(AFD autom){
+		Particao part = particaoInicial(autom);
+		LinkedList<Particao> atualPart = new LinkedList<>();
+		atualPart.add(part);
+		LinkedList<Particao> novaPart;
+		
 		AFD minim = null;
 		return minim;
 	}
@@ -38,17 +45,41 @@ public class MinimizadorAFD {
 		return inalcancaveis;
 	}
 	
-	private void removeEstadosIndistinguiveis(AFD autom){
-		ArrayList<EstadoAFD> finais = autom.getEstadosFinais();
-		ArrayList<EstadoAFD> naoFinais = autom.getEstados();
-		naoFinais.removeAll(finais);
-		
-		while(!finais.isEmpty()){
-			EstadoAFD[] par = {finais.get(0), finais.get(finais.size()-1)};
-			ArrayList<EstadoAFD> resultantesDoPar = (ArrayList<EstadoAFD>) par[0].getFuncoesTransicao().values();
-			resultantesDoPar.addAll( par[1].getFuncoesTransicao().values());
+	private Particao particaoInicial(AFD autom){
+		Particao naoFinais = new Particao();
+		for(EstadoAFD estado : autom.getEstados()){
+			if(!estado.isFinal())
+				naoFinais.addEstado(estado);
 		}
-		
+		return naoFinais;
+	}
+	
+	private Particao particaoFinal(AFD autom){
+		Particao finais = new Particao();
+		for(EstadoAFD estado : autom.getEstados()){
+			if(estado.isFinal())
+				finais.addEstado(estado);
+		}
+		return finais;
+	}
+	
+	private LinkedList<Particao> reParticionar(LinkedList<Particao> atuais, Particao p){
+		int indPart = atuais.indexOf(p);
+		for(EstadoAFD estado : p.getEstados()){
+			
+		}
+	}
+	
+	private boolean particoesImutaveis(LinkedList<Particao> anteriores, LinkedList<Particao> atuais){
+		for(Particao particao: anteriores){
+			if(!atuais.contains(particao))
+				return false;
+		}
+		for(Particao particao: atuais){
+			if(!anteriores.contains(particao))
+				return false;
+		}
+		return true;
 	}
 
 }

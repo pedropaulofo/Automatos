@@ -6,7 +6,7 @@ import java.util.List;
 
 public abstract class AutomatoFinito implements IAutomatoFinito{
 	
-	private String[] alfabeto;
+	protected String[] alfabeto;
 	protected AbstractEstado estadoInicial = null;
 	private List<AbstractEstado> estados = new ArrayList<AbstractEstado>();
 	

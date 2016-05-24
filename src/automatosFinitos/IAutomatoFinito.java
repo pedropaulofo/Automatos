@@ -14,7 +14,7 @@ public interface IAutomatoFinito {
 	 * Todo automato deve ser capaz de possuir novos estados, durante sua construção.
 	 * 
 	 */
-	public AbstractEstado addNovoEstado();
+	public AbstractEstado novoEstado();
 	
 	/**
 	 * O automato dev ser capaz de informar qual o seu estado incial.

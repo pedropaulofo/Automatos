@@ -29,6 +29,12 @@ public class EstadoAFD extends AbstractEstado{
 		return this.getFuncoesTransicao().get(entrada);
 	}
 	
+	public void inicializar(String[] alfabeto){
+		for (int i = 0; i < alfabeto.length; i++){
+			funcoesTransicao.put(alfabeto[i], this);
+		}
+	}
+	
 	public boolean equivalente(EstadoAFD other){		
 		if(other.isFinal() && !this.isFinal()) return false;
 		if(!other.isFinal() && this.isFinal()) return false;
