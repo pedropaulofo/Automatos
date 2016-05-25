@@ -1,9 +1,4 @@
-package AFtest;
-
-import automatosFinitos.EntradaIndefinidaException;
-import automatosFinitos.deterministico.AFD;
-import automatosFinitos.deterministico.EstadoAFD;
-import automatosFinitos.util.MinimizadorAFD;
+package utilTest;
 
 import java.util.ArrayList;
 
@@ -11,7 +6,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class AutomatoFinitoDeterministicoTest {
+import automatosFinitos.EntradaIndefinidaException;
+import automatosFinitos.deterministico.AFD;
+import automatosFinitos.deterministico.EstadoAFD;
+import automatosFinitos.util.MinimizadorAFD;
+
+public class MinimizadorAFDTest {
 	
 	public AFD automato1;
 	public AFD automato2;
@@ -81,78 +81,71 @@ public class AutomatoFinitoDeterministicoTest {
 	}
 	
 	@Test
-	public void testAceitaPalavra() throws EntradaIndefinidaException{
-		//Testando automato1:
+	public void testMinimizacao() throws EntradaIndefinidaException{
+		//minimizacao automato1 
+		AFD min1 = MinimizadorAFD.minimizacao(automato1);
 		Assert.assertTrue(automato1.aceitaPalavra("010"));
-		Assert.assertTrue(automato1.aceitaPalavra("1"));
-		Assert.assertTrue(automato1.aceitaPalavra("00000"));
+		Assert.assertTrue(min1.aceitaPalavra("010"));
 		Assert.assertFalse(automato1.aceitaPalavra("1111"));
-		Assert.assertFalse(automato1.aceitaPalavra(""));
-		Assert.assertFalse(automato1.aceitaPalavra("011001"));
+		Assert.assertFalse(min1.aceitaPalavra("1111"));
+		//Assert.assertEquals(automato1.getEstados().size(), min1.getEstados().size());
+		Assert.assertEquals(2, MinimizadorAFD.estadosAlcancaveis(min1).size());
 		
-		//Testando automato2:
+		//minimizacao automato2
+		AFD min2 = MinimizadorAFD.minimizacao(automato2);
+		//Assert.assertEquals(3, MinimizadorAFD.estadosAlcancaveis(min2).size());
 		Assert.assertTrue(automato2.aceitaPalavra("0001"));
-		Assert.assertTrue(automato2.aceitaPalavra("010011"));
-		Assert.assertTrue(automato2.aceitaPalavra("11"));
-		Assert.assertFalse(automato2.aceitaPalavra(""));
-		Assert.assertFalse(automato2.aceitaPalavra("111"));
+		//Assert.assertTrue(min2.aceitaPalavra("0001"));
 		Assert.assertFalse(automato2.aceitaPalavra("0110"));
+		Assert.assertFalse(min2.aceitaPalavra("0110"));
+		//Assert.assertEquals(automato2.getEstados().size(), min2.getEstados().size());
 		
-		//Testando automato3:
+		//minimizacao automato3
+		AFD min3 = MinimizadorAFD.minimizacao(automato3);
 		Assert.assertTrue(automato3.aceitaPalavra("aaabcbc"));
-		Assert.assertTrue(automato3.aceitaPalavra("bc"));
-		Assert.assertTrue(automato3.aceitaPalavra("aaaaaa"));
-		Assert.assertTrue(automato3.aceitaPalavra(""));
+		Assert.assertTrue(min3.aceitaPalavra("aaabcbc"));
 		Assert.assertFalse(automato3.aceitaPalavra("abacbc"));
-		Assert.assertFalse(automato3.aceitaPalavra("bcbca"));
-		Assert.assertFalse(automato3.aceitaPalavra("aabcbca"));
-		Assert.assertFalse(automato3.aceitaPalavra("aaabcbcaaabcbc"));
+		//Assert.assertFalse(min3.aceitaPalavra("abacbc"));
 		
-		//Testando automato4:
+		//minimizacao automato4
+		AFD min4 = MinimizadorAFD.minimizacao(automato4);
 		Assert.assertTrue(automato4.aceitaPalavra("aaabcbc"));
-		Assert.assertTrue(automato4.aceitaPalavra("abcaaaccba"));
-		Assert.assertTrue(automato4.aceitaPalavra("abcabcabc"));
-		Assert.assertTrue(automato4.aceitaPalavra("abcccbaab"));
-		Assert.assertFalse(automato4.aceitaPalavra("aabaccc"));
+		//Assert.assertTrue(min4.aceitaPalavra("aaabcbc"));
 		Assert.assertFalse(automato4.aceitaPalavra(""));
-		Assert.assertFalse(automato4.aceitaPalavra("aabbcc"));
-		Assert.assertFalse(automato4.aceitaPalavra("bcabbc"));
+		Assert.assertFalse(min4.aceitaPalavra(""));
+		
 	}
 	
 	@Test
 	public void testaAlcancabilidade() throws EntradaIndefinidaException{
 		MinimizadorAFD min = new MinimizadorAFD();
-		ArrayList<EstadoAFD> inalcancaveis;
+		ArrayList<EstadoAFD> alcancaveis;
 		
-		inalcancaveis = min.estadosAlcancaveis(automato1);
-		Assert.assertTrue(inalcancaveis.isEmpty());
+		alcancaveis = MinimizadorAFD.estadosAlcancaveis(automato1);
+		Assert.assertEquals(alcancaveis.size(), automato1.getEstados().size());
 		automato1.novoEstado();	// Adiciona um novo estado, inalcancavel
-		inalcancaveis = min.estadosAlcancaveis(automato1);
-		Assert.assertFalse(inalcancaveis.isEmpty()); //Agora ha pelo menos um inalcancavel
+		alcancaveis = MinimizadorAFD.estadosAlcancaveis(automato1);
+		Assert.assertEquals(alcancaveis.size(), automato1.getEstados().size() - 1); //Agora ha pelo menos um inalcancavel
 		
-		inalcancaveis = min.estadosAlcancaveis(automato2);
-		Assert.assertTrue(inalcancaveis.isEmpty());
+		alcancaveis = MinimizadorAFD.estadosAlcancaveis(automato2);
+		Assert.assertTrue(alcancaveis.size() == automato2.getEstados().size());
 		EstadoAFD novo = automato2.novoEstado();	
-		inalcancaveis = min.estadosAlcancaveis(automato2);
-		Assert.assertEquals(novo, inalcancaveis.get(0)); //verifica que o novo estado eh inalcancavel
+		alcancaveis = MinimizadorAFD.estadosAlcancaveis(automato2);
+		Assert.assertFalse(alcancaveis.contains(novo)); //verifica que o novo estado eh inalcancavel
 		automato2.getEstadoInicial().setFuncaoTransicao("0", novo); //torna o novo estado alcancavel, a partir do estado inicial
-		inalcancaveis = min.estadosAlcancaveis(automato2);
-		Assert.assertTrue(inalcancaveis.isEmpty()); //verifica que agora nao ha mais inalcancaveis
+		alcancaveis = MinimizadorAFD.estadosAlcancaveis(automato2);
+		Assert.assertTrue(alcancaveis.contains(novo)); //verifica que agora nao ha mais inalcancaveis
 
+		ArrayList<EstadoAFD> inalcancaveis;
 		String[] alf = {"p", "q"};
 		AFD automato5 = new AFD(alf);
-		inalcancaveis = min.estadosAlcancaveis(automato5);
+		inalcancaveis = MinimizadorAFD.estadosInalcancaveis(automato5);
 		Assert.assertTrue(inalcancaveis.isEmpty());
 		EstadoAFD e1 = automato5.novoEstado();
 		EstadoAFD e2 = automato5.novoEstado();
 		EstadoAFD[] expectedInalcancaveis = {e1, e2};
-		inalcancaveis = min.estadosAlcancaveis(automato5);
+		inalcancaveis = MinimizadorAFD.estadosInalcancaveis(automato5);
 		Assert.assertArrayEquals(expectedInalcancaveis, inalcancaveis.toArray()); //verifica se os estados inalcancaveis sao os que foram criados
 	}
-	
-	@Test
-	public void testaComparacao(){
-		Assert.assertTrue(automato1.equals(automato1));
-	}
-	
+
 }

@@ -20,12 +20,12 @@ public class EstadoAFD extends AbstractEstado{
 	}
 	
 	public void setFuncaoTransicao(String entrada, EstadoAFD estadoResultante) throws EntradaIndefinidaException{
-		if(!funcoesTransicao.containsKey(entrada)) throw new EntradaIndefinidaException();
+		//if(!funcoesTransicao.containsKey(entrada)) throw new EntradaIndefinidaException(entrada);
 		funcoesTransicao.put(entrada, estadoResultante);
 	}
 	
 	public EstadoAFD getResultadoFuncaoTransicao(String entrada) throws EntradaIndefinidaException{
-		if(!funcoesTransicao.containsKey(entrada)) throw new EntradaIndefinidaException();
+		if(!funcoesTransicao.containsKey(entrada)) throw new EntradaIndefinidaException(entrada);
 		return this.getFuncoesTransicao().get(entrada);
 	}
 	

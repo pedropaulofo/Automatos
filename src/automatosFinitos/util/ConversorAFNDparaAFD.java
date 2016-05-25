@@ -85,7 +85,7 @@ public class ConversorAFNDparaAFD {
 		for(int i=0; i < sets.size(); i++){
 			if(sets.get(i).isFinal()) estados.get(i).setFinal(true); //para cada estado equivalente a um set que contém um final, o estado é final
 			for(int j=0; j < alfabeto.length; j++){
-				int indResultante = sets.indexOf(sets.get(i).getSetTransicao(alfabeto[j])); //O indice equivalente do set resultante da transição 
+				int indResultante = getIndiceSet(sets, sets.get(i).getSetTransicao(alfabeto[j])); //O indice equivalente do set resultante da transição 
 				estados.get(i).setFuncaoTransicao(alfabeto[j], estados.get(indResultante)); //O estado de mesmo indice é resultante dessa mesma transição no estado equivalente iterado
 			}
 		}
@@ -99,5 +99,12 @@ public class ConversorAFNDparaAFD {
 		}
 		
 		return automato;
+	}
+	
+	private static int getIndiceSet(ArrayList<SetDeConversao> sets, SetDeConversao set){
+		for(int i=0; i<sets.size(); i++){
+			if(sets.get(i).equals(set)) return i;
+		}
+		return 0;
 	}
 }

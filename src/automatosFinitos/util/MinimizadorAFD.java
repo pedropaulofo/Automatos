@@ -33,7 +33,7 @@ public class MinimizadorAFD {
 		return minim;
 	}
 	
-	public static ArrayList<EstadoAFD> estadosAlcancaveis(AFD autom){
+	public static ArrayList<EstadoAFD> estadosInalcancaveis(AFD autom){
 		int qtdeEstados = autom.getEstados().size();
 		ArrayList<EstadoAFD> alcancaveis = new ArrayList<EstadoAFD>(qtdeEstados);
 		alcancaveis.add(autom.getEstadoInicial());
@@ -52,6 +52,18 @@ public class MinimizadorAFD {
 			novosEstados.removeAll(alcancaveis);
 			alcancaveis.addAll(novosEstados);
 		}
+		ArrayList<EstadoAFD> inalcancaveis = (ArrayList<EstadoAFD>) autom.getEstados().clone();
+		inalcancaveis.removeAll(alcancaveis);
+		return inalcancaveis;
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public static ArrayList<EstadoAFD> estadosAlcancaveis(AFD autom){
+		ArrayList<EstadoAFD> estados = autom.getEstados();
+		ArrayList<EstadoAFD> alcancaveis = (ArrayList<EstadoAFD>) estados.clone();
+		alcancaveis.removeAll(estadosInalcancaveis(autom));
+	
 		return alcancaveis;
 	}
 	
@@ -76,12 +88,12 @@ public class MinimizadorAFD {
 	@SuppressWarnings("unchecked")
 	private static LinkedList<Particao> reParticiona(LinkedList<Particao> atuais, Particao p) throws EntradaIndefinidaException{
 		LinkedList<Particao> novas = (LinkedList<Particao>) atuais.clone();
-		for(int i=1; i<p.getEstados().size(); i++){
+		for(int i=1; i < p.getEstados().size(); i++){
 			EstadoAFD estado1 = p.getEstados().get(i -1);
 			EstadoAFD estado2 = p.getEstados().get(i);
 			for(String chave: estado1.getFuncoesTransicao().keySet()){
 				if(!mesmaParticao(atuais, estado1.getResultadoFuncaoTransicao(chave), estado2.getResultadoFuncaoTransicao(chave))){
-					novas = reAlocaEstado(novas, estado2);
+					novas = realocaEstado(novas, estado2);
 					break;
 				}
 			}
@@ -100,13 +112,13 @@ public class MinimizadorAFD {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private static LinkedList<Particao> reAlocaEstado(LinkedList<Particao> atuais, EstadoAFD estado) throws EntradaIndefinidaException{
+	private static LinkedList<Particao> realocaEstado(LinkedList<Particao> atuais, EstadoAFD estado) throws EntradaIndefinidaException{
 		LinkedList<Particao> novasParticoes = (LinkedList<Particao>) atuais.clone();
 		boolean encontrada = false;
 		
 		for(Particao part : novasParticoes){
 			LinkedList<EstadoAFD> estadosPart = part.getEstados();
-			if(estadosPart.contains(estado))
+			if(estadosPart.contains(estado) && part.isParticionavel())
 				estadosPart.remove(estado);
 			for(String chave: estado.getFuncoesTransicao().keySet()){
 				EstadoAFD resultanteBase = estadosPart.getFirst().getResultadoFuncaoTransicao(chave);
@@ -120,9 +132,9 @@ public class MinimizadorAFD {
 				part.addEstado(estado);
 				return novasParticoes;
 			}
-			Particao nova = new Particao(estado);
-			novasParticoes.add(nova);
 		}
+		Particao nova = new Particao(estado);
+		novasParticoes.add(nova);
 		return novasParticoes;
 	}
 	
@@ -146,7 +158,7 @@ public class MinimizadorAFD {
 		
 		for(int i=0; i < particoes.size(); i++){
 			for(int j=0; j < alfabeto.length; j++){
-				int indResultante = geIndiceParticaoEquivalente(particoes, estados.get(i).getResultadoFuncaoTransicao(alfabeto[j]));
+				int indResultante = geIndiceParticaoEquivalente(particoes, particoes.get(i).getEstados().getFirst().getResultadoFuncaoTransicao(alfabeto[j]));
 				estados.get(i).setFuncaoTransicao(alfabeto[j], estados.get(indResultante));
 				//O estado que está na particao resultante é resultante para a mesma entrada no estado equivalente (mesmo índice)
 			}
