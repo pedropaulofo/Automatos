@@ -51,6 +51,7 @@ public class AFD extends AutomatoFinito{
 			}
 		}
 		this.estadoInicial = estadoInicial;
+		estadoInicial.setInicial(true);
 		estados.add((EstadoAFD) estadoInicial);
 		
 	}

@@ -124,29 +124,29 @@ public class AutomatoFinitoDeterministicoTest {
 		MinimizadorAFD min = new MinimizadorAFD();
 		ArrayList<EstadoAFD> inalcancaveis;
 		
-		inalcancaveis = min.estadosInalcacaveis(automato1);
+		inalcancaveis = min.estadosAlcancaveis(automato1);
 		Assert.assertTrue(inalcancaveis.isEmpty());
 		automato1.novoEstado();	// Adiciona um novo estado, inalcancavel
-		inalcancaveis = min.estadosInalcacaveis(automato1);
+		inalcancaveis = min.estadosAlcancaveis(automato1);
 		Assert.assertFalse(inalcancaveis.isEmpty()); //Agora ha pelo menos um inalcancavel
 		
-		inalcancaveis = min.estadosInalcacaveis(automato2);
+		inalcancaveis = min.estadosAlcancaveis(automato2);
 		Assert.assertTrue(inalcancaveis.isEmpty());
 		EstadoAFD novo = automato2.novoEstado();	
-		inalcancaveis = min.estadosInalcacaveis(automato2);
+		inalcancaveis = min.estadosAlcancaveis(automato2);
 		Assert.assertEquals(novo, inalcancaveis.get(0)); //verifica que o novo estado eh inalcancavel
 		automato2.getEstadoInicial().setFuncaoTransicao("0", novo); //torna o novo estado alcancavel, a partir do estado inicial
-		inalcancaveis = min.estadosInalcacaveis(automato2);
+		inalcancaveis = min.estadosAlcancaveis(automato2);
 		Assert.assertTrue(inalcancaveis.isEmpty()); //verifica que agora nao ha mais inalcancaveis
 
 		String[] alf = {"p", "q"};
 		AFD automato5 = new AFD(alf);
-		inalcancaveis = min.estadosInalcacaveis(automato5);
+		inalcancaveis = min.estadosAlcancaveis(automato5);
 		Assert.assertTrue(inalcancaveis.isEmpty());
 		EstadoAFD e1 = automato5.novoEstado();
 		EstadoAFD e2 = automato5.novoEstado();
 		EstadoAFD[] expectedInalcancaveis = {e1, e2};
-		inalcancaveis = min.estadosInalcacaveis(automato5);
+		inalcancaveis = min.estadosAlcancaveis(automato5);
 		Assert.assertArrayEquals(expectedInalcancaveis, inalcancaveis.toArray()); //verifica se os estados inalcancaveis sao os que foram criados
 	}
 	
